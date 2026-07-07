@@ -14,6 +14,7 @@ sub fondation_meta {
         dependencies => [
             'Fondation::Model::DBIx::Async',
             'Fondation::Auth',
+            'Fondation::Problem',
         ],
         defaults => {
             models => {
@@ -88,12 +89,10 @@ sub register ($self, $app, $config) {
 
         unless ($allows) {
             delete $c->stash->{'current_user'};
-            my $msg = $app->mode eq 'development'
-                ? 'Bearer token not allowed on this route'
-                : 'Access denied';
-            $c->render(
-                json   => { errors => [{ message => $msg }] },
+            $c->problem(
                 status => 403,
+                title  => 'Access denied',
+                detail => 'Bearer token not allowed on this route',
             );
             return;
         }
@@ -106,25 +105,25 @@ sub register ($self, $app, $config) {
     $app->routes->add_condition('fondation.bearer' => sub {
         my ($route, $c, $captures) = @_;
 
+        return 1 unless $route->{requires}
+            && grep { $_ eq 'fondation.bearer' } @{$route->{requires}};
+        return 1 unless $route->pattern->match($c->req->url->path->to_string);
+
         if ($c->stash('fondation.bearer_invalid')) {
-            my $msg = $app->mode eq 'development'
-                ? 'Invalid bearer token'
-                : 'Access denied';
-            $c->render(
-                json   => { errors => [{ message => $msg }] },
+            $c->problem(
                 status => 403,
+                title  => 'Access denied',
+                detail => 'Invalid bearer token',
             ) if !$c->res->code || $c->res->code == 200;
             return undef;
         }
 
         return 1 if $c->is_user_authenticated;
 
-        my $auth_msg = $app->mode eq 'development'
-            ? 'Authentication required'
-            : 'Access denied';
-        $c->render(
-            json   => { errors => [{ message => $auth_msg }] },
+        $c->problem(
             status => 401,
+            title  => 'Access denied',
+            detail => 'Authentication required',
         ) if !$c->res->code || $c->res->code == 200;
         return undef;
     });

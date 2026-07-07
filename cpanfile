@@ -7,6 +7,8 @@ requires 'Mojolicious' => '9.46';
 requires 'Mojolicious::Plugin::Fondation';
 requires 'Mojolicious::Plugin::Fondation::Model::DBIx::Async';
 requires 'Mojolicious::Plugin::Fondation::Auth';
+requires 'Mojolicious::Plugin::Fondation::Problem';
+
 requires 'Digest::SHA';
 requires 'Crypt::URandom';
 
