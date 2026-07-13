@@ -7,8 +7,6 @@ use Digest::SHA qw(sha256_hex);
 use Crypt::URandom qw(urandom);
 use Future;
 
-our $VERSION = '0.01';
-
 sub fondation_meta {
     return {
         dependencies => [
