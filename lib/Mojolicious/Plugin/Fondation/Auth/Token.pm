@@ -128,9 +128,6 @@ sub register ($self, $app, $config) {
 
     # ── Token management API routes ──────────────────────────────────
 
-    push @{$app->routes->namespaces},
-        'Mojolicious::Plugin::Fondation::Auth::Token::Controller';
-
     $app->routes->get('/api/ApiToken')
         ->to('ApiToken#list');
 
