@@ -5,7 +5,7 @@ package Mojolicious::Plugin::Fondation::Auth::Token::Schema::Result::ApiToken;
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use base 'Mojolicious::Plugin::Fondation::Schema::Result::Base';
 
 __PACKAGE__->load_components(qw/TimeStamp Core/);
 
