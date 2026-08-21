@@ -4,7 +4,7 @@ requires 'perl' => '5.026';
 
 # Runtime
 requires 'Mojolicious' => '9.46';
-requires 'Mojolicious::Plugin::Fondation' => '0.07';
+requires 'Mojolicious::Plugin::Fondation' => '0.08';
 requires 'Mojolicious::Plugin::Fondation::Model::DBIx::Async' => '0.06';
 requires 'DBIx::Class::TimeStamp';
 requires 'Mojolicious::Plugin::Fondation::Auth' => '0.02';

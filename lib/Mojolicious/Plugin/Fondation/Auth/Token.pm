@@ -108,21 +108,23 @@ sub register ($self, $app, $config) {
         return 1 unless $route->pattern->match($c->req->url->path->to_string);
 
         if ($c->stash('fondation.bearer_invalid')) {
-            $c->problem(
+            $c->res->code(403);
+            $c->stash('fondation.denied' => {
                 status => 403,
                 title  => 'Access denied',
                 detail => 'Invalid bearer token',
-            ) if !$c->res->code || $c->res->code == 200;
+            }) unless $c->stash('fondation.denied');
             return undef;
         }
 
         return 1 if $c->is_user_authenticated;
 
-        $c->problem(
+        $c->res->code(401);
+        $c->stash('fondation.denied' => {
             status => 401,
             title  => 'Access denied',
             detail => 'Authentication required',
-        ) if !$c->res->code || $c->res->code == 200;
+        }) unless $c->stash('fondation.denied');
         return undef;
     });
 
