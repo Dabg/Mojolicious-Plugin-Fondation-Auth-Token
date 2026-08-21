@@ -1,6 +1,8 @@
 Revision history for Mojolicious-Plugin-Fondation-Auth-Token
 
 {{$NEXT}}
+    - requires Fondation::Model::DBIx::Async 0.06
+    - fix: bearer condition sets fondation.denied marker instead of rendering
 
 0.02      2026-08-06 23:44:07+02:00 Europe/Paris
     - use Mojolicious::Plugin::Fondation::Schema::Result::Base
